@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  mongodb_container:
+    image: mongo:4
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - 7071:27017
+    volumes:
+      - mongo-weasylearn-local:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+
+volumes:
+  mongo-weasylearn-local:

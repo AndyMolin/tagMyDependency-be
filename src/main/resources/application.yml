@@ -1,0 +1,20 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 7071
+      database: tag-my-dependency
+      username: tagger
+      password: the-tagger-password
+
+keycloak:
+  auth-server-url: https://id.cadeca.ro/auth
+  realm: tag-my-dependency-local
+  resource: tag-my-dependency-be
+  bearer-only: true
+  principal-attribute: preferred_username
+  ssl-required: external
+  use-resource-role-mappings: true
+
+server:
+  port: 7070
