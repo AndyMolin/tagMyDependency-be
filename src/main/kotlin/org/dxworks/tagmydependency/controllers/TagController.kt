@@ -11,7 +11,7 @@ class TagController(
 ) {
 
     @GetMapping("search")
-    fun getTagsByQuery(@RequestParam query: String, @RequestParam private: Boolean = false): List<String> {
+    fun getTagsByQuery(@RequestParam query: String = "", @RequestParam private: Boolean = false): List<String> {
         return if (private)
             tagService.getPrivateTagSuggestionsForUser(query)
         else
