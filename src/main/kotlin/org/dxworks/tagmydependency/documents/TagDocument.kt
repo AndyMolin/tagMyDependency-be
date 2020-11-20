@@ -1,8 +1,6 @@
 package org.dxworks.tagmydependency.documents
 
 import org.springframework.data.annotation.Id
-import org.springframework.data.mongodb.core.index.CompoundIndex
-import org.springframework.data.mongodb.core.index.CompoundIndexes
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 
@@ -18,6 +16,10 @@ class TagDocument(
         val disLikes: Int = 0
 ) {
     @Id
-    val id: String? = null
+    var id: String = createID()
+
+    private fun createID(): String {
+        return "{'tag':$tag,'depName':${dependencyRef.name},'depProv':${dependencyRef.provider},'username':$username}"
+    }
 }
 
