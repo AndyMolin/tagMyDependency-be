@@ -18,6 +18,11 @@ class TagController(
             tagService.getTagSuggestionsForUser(query)
     }
 
+    @GetMapping()
+    fun getDependencyByTag(@RequestParam tag: String): List<DependencyRef> {
+        return tagService.getDependenciesForTag(tag)
+    }
+
     @PostMapping
     fun addTag(@RequestBody body: AddTagBody) {
         tagService.addPrivateTag(body.tag, body.dependencyRef)
