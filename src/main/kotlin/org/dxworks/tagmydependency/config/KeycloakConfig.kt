@@ -1,4 +1,4 @@
-package org.dxworks.tagmydependency
+package org.dxworks.tagmydependency.config
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

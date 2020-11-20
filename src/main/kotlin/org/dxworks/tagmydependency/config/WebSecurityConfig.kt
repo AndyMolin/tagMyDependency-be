@@ -1,4 +1,4 @@
-package org.dxworks.tagmydependency
+package org.dxworks.tagmydependency.config
 
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter
@@ -24,7 +24,9 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 class WebSecurityConfig : KeycloakWebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         super.configure(http)
-        http.authorizeRequests().anyRequest().authenticated()
+        http.authorizeRequests()
+                .antMatchers("/api/public/**").permitAll()
+                .anyRequest().authenticated()
 
         http.cors()
         http.csrf().disable()

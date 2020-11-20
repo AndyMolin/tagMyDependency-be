@@ -1,8 +1,8 @@
 package org.dxworks.tagmydependency.services
 
-import org.springframework.stereotype.Service
+import org.dxworks.tagmydependency.dtos.result.DependencySearchResultDTO
 
-@Service
-class DependencySearchService {
-
+interface DependencySearchService {
+    fun searchDependencies(query: String, startAt: Int = 0, pageSize: Int = 20): DependencySearchResultDTO
+    fun providerName(): String
 }

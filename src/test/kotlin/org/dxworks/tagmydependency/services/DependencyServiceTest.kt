@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-internal class DependencySearchServiceTest {
+internal class DependencyServiceTest {
 
     @Autowired
     private lateinit var mavenSearchService: MavenSearchService
 
     @Test
     fun `get dependency response`() {
-        val findDependencies = mavenSearchService.searchDependency("guice")
+        val findDependencies = mavenSearchService.searchDependencies("guice")
 
         assertNotNull(findDependencies)
     }
