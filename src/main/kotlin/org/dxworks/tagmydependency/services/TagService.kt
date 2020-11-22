@@ -33,7 +33,7 @@ class TagService(
                 ?: emptyList()
     }
 
-    private fun getDependenciesForTag(tag: String): List<DependencyRef> {
+    fun getDependenciesForTag(tag: String): List<DependencyRef> {
         return (getDependenciesForPrivateTags(tag) +
                 tagRepository.findByUsernameAndTag(authenticationService.defaultUsername, tag))
                 .map { it.dependencyRef }

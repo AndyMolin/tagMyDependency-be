@@ -11,11 +11,11 @@ class TagController(
 ) {
 
     @GetMapping("search")
-    fun getTagsByQuery(@RequestParam query: String = "", @RequestParam private: Boolean = false): List<String> {
-        return if (private)
+    fun getTagsByQuery(@RequestParam(required = false, defaultValue = "") query: String, @RequestParam private: Boolean = false): List<String> {
+        return (if (private)
             tagService.getPrivateTagSuggestionsForUser(query)
         else
-            tagService.getTagSuggestionsForUser(query)
+            tagService.getTagSuggestionsForUser(query)).distinct()
     }
 
     @GetMapping()

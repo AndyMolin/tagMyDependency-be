@@ -13,7 +13,10 @@ class DependencyController(
         private val dependencyService: DependencyService
 ) {
     @GetMapping("/search")
-    fun search(@RequestParam query: String, @RequestParam providers: List<String>): DependencySearchResultDTO {
-        return dependencyService.searchDependencies(query, providers)
+    fun search(@RequestParam query: String, @RequestParam providers: List<String>, @RequestParam pageSize: Int, @RequestParam pageNumber: Int): DependencySearchResultDTO {
+        return if (query.isBlank())
+            DependencySearchResultDTO(0, emptyList())
+        else
+            dependencyService.searchDependencies(query, providers, pageSize, pageNumber)
     }
 }
