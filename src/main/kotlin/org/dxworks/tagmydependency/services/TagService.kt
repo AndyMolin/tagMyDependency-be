@@ -45,4 +45,21 @@ class TagService(
                 ?: emptyList())
     }
 
+    fun makeTagPublic(tag: String, dependency: DependencyRef) {
+        val tagToMakePublic = tagRepository.findByTagAndDependencyRef(tag, dependency)
+        tagToMakePublic.isUnderReview = true
+        tagRepository.save(tagToMakePublic)
+    }
+
+    fun increaseLikes(tag: String, dependency: DependencyRef) {
+        val tagToIncreaseLikes = tagRepository.findByTagAndDependencyRef(tag, dependency)
+        tagToIncreaseLikes.likes++
+        tagRepository.save(tagToIncreaseLikes)
+    }
+
+    fun increaseDisLikes(tag: String, dependency: DependencyRef) {
+        val tagToIncreaseDislikes = tagRepository.findByTagAndDependencyRef(tag, dependency)
+        tagToIncreaseDislikes.disLikes++
+        tagRepository.save(tagToIncreaseDislikes)
+    }
 }

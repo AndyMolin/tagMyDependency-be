@@ -11,9 +11,9 @@ class TagDocument(
         val dependencyRef: DependencyRef,
         @Indexed
         val username: String,
-        val isUnderReview: Boolean = false,
-        val likes: Int = 0,
-        val disLikes: Int = 0
+        var isUnderReview: Boolean = false,
+        var likes: Int = 0,
+        var disLikes: Int = 0
 ) {
     @Id
     var id: String = createID()
