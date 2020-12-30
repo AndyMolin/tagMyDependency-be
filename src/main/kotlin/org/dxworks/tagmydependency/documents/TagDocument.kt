@@ -10,10 +10,13 @@ class TagDocument(
         val tag: String,
         val dependencyRef: DependencyRef,
         @Indexed
-        val username: String,
+        var username: String,
         var isUnderReview: Boolean = false,
-        var likes: Int = 0,
-        var disLikes: Int = 0
+        var likes: MutableSet<String> = HashSet(),
+        var dislikes: MutableSet<String> = HashSet(),
+        var rejected: Boolean = false,
+        var deprecated: Boolean = false,
+        var suggestedBy: String? = null
 ) {
     @Id
     var id: String = createID()
