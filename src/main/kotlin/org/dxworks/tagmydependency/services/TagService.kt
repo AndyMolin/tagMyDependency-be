@@ -6,6 +6,7 @@ import org.dxworks.tagmydependency.documents.DependencyRef
 import org.dxworks.tagmydependency.documents.TagDocument
 import org.dxworks.tagmydependency.dtos.DependencyTagDTO
 import org.dxworks.tagmydependency.dtos.TagDTO
+import org.dxworks.tagmydependency.exceptions.SuggestionAlreadyExistsException
 import org.dxworks.tagmydependency.exceptions.TagDocumentNotFoundException
 import org.dxworks.tagmydependency.repositories.TagRepository
 import org.springframework.stereotype.Service
@@ -48,8 +49,9 @@ class TagService(
     }
 
     private fun computeVote(tag: TagDocument): String? {
-        val currentUsername = authenticationService.getCurrentUsername()!!
+        val currentUsername = authenticationService.getCurrentUsername()
         return when {
+            currentUsername == null -> null
             tag.likes.contains(currentUsername) -> "like"
             tag.dislikes.contains(currentUsername) -> "dislike"
             else -> null
@@ -75,10 +77,13 @@ class TagService(
     }
 
     fun createTagSuggestion(tagId: String) {
-        val tagToMakePublic = findTagDocument(tagId)
-        tagToMakePublic.isUnderReview = true
-        tagToMakePublic.likes.add(authenticationService.getCurrentUsername()!!)
-        tagRepository.save(tagToMakePublic)
+        val tag = findTagDocument(tagId)
+        tagRepository.findByTagAndDependencyRefAndIsUnderReviewTrue(tag.tag, tag.dependencyRef).firstOrNull()?.let {
+            throw SuggestionAlreadyExistsException(it.id)
+        }
+        tag.isUnderReview = true
+        tag.likes.add(authenticationService.getCurrentUsername()!!)
+        tagRepository.save(tag)
     }
 
 
