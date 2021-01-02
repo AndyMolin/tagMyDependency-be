@@ -17,16 +17,21 @@ const val MAVEN_ARTIFACT_BASE_URL = "https://mvnrepository.com/artifact"
 class MavenSearchService : RestClient(MAVEN_SEARCH_BASE_URL), DependencySearchService {
 
     override fun searchDependencies(query: String, startAt: Int, pageSize: Int): DependencySearchResultDTO {
-        return httpClient.get(MavenSearchUrl(query, startAt, pageSize)).parseAs(MavenSearchResponseDTO::class.java).let { res ->
-            DependencySearchResultDTO(res.response.numFound.toLong(), res.response.docs.map {
-                DependencyResultDTO(
-                        name = it.id,
-                        latestVersion = it.latestVersion,
-                        provider = MAVEN,
-                        url = "$MAVEN_ARTIFACT_BASE_URL/${it.g}/${it.a}"
-                )
-            })
+        try {
+            return httpClient.get(MavenSearchUrl(query, startAt, pageSize)).parseAs(MavenSearchResponseDTO::class.java).let { res ->
+                DependencySearchResultDTO(res.response.numFound.toLong(), res.response.docs.map {
+                    DependencyResultDTO(
+                            name = it.id,
+                            latestVersion = it.latestVersion,
+                            provider = MAVEN,
+                            url = "$MAVEN_ARTIFACT_BASE_URL/${it.g}/${it.a}"
+                    )
+                })
+            }
+        } catch (e: Exception) {
+            println(e.stackTrace)
         }
+        return DependencySearchResultDTO(0, emptyList())
     }
 
     override fun providerName() = MAVEN

@@ -17,16 +17,21 @@ const val NPM_ARTIFACT_BASE_URL = "https://www.npmjs.com/package"
 class NpmSearchService : RestClient(NPM_SEARCH_BASE_URL), DependencySearchService {
 
     override fun searchDependencies(query: String, startAt: Int, pageSize: Int): DependencySearchResultDTO {
-        return httpClient.get(NpmSearchUrl(query, startAt, pageSize)).parseAs(NpmSearchResponseDTO::class.java).let { res ->
-            DependencySearchResultDTO(res.total.toLong(), res.objects.map {
-                DependencyResultDTO(
-                        name = it._package["name"] as String,
-                        latestVersion = it._package["version"] as String,
-                        provider = NPM,
-                        url = "$NPM_ARTIFACT_BASE_URL/${it._package["name"]}"
-                )
-            })
+        try {
+            return httpClient.get(NpmSearchUrl(query, startAt, pageSize)).parseAs(NpmSearchResponseDTO::class.java).let { res ->
+                DependencySearchResultDTO(res.total.toLong(), res.objects.map {
+                    DependencyResultDTO(
+                            name = it._package["name"] as String,
+                            latestVersion = it._package["version"] as String,
+                            provider = NPM,
+                            url = "$NPM_ARTIFACT_BASE_URL/${it._package["name"]}"
+                    )
+                })
+            }
+        } catch (e: Exception) {
+            println(e.stackTrace)
         }
+        return DependencySearchResultDTO(0, emptyList())
     }
 
     override fun providerName() = NPM
