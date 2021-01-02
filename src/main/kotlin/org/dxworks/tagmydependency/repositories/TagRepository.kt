@@ -13,4 +13,5 @@ interface TagRepository : MongoRepository<TagDocument, String> {
     fun existsByTagAndDependencyRefAndUsernameIn(tag: String, dependencyRef: DependencyRef, usernames: List<String>): Boolean
     fun findByIsUnderReviewTrueAndTagContaining(query: String): List<TagDocument>
     fun findBySuggestedByAndUsername(suggestedBy: String, username: String): List<TagDocument>
+    fun findByRejectedAndUsername(rejected: Boolean, username: String): List<TagDocument>
 }

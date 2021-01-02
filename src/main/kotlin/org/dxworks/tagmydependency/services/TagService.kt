@@ -41,7 +41,7 @@ class TagService(
                 dependencyRef = tag.dependencyRef,
                 tag = tag.tag,
                 deprecated = tag.deprecated,
-                rejected = tag.rejected,
+                rej = tag.rejected,
                 underReview = tag.isUnderReview,
                 likes = tag.likes.size,
                 dislikes = tag.dislikes.size,
@@ -154,6 +154,11 @@ class TagService(
 
     fun getAcceptedSuggestionsOfCurrentUser(): List<DependencyTagDTO> {
         return tagRepository.findBySuggestedByAndUsername(authenticationService.getCurrentUsername()!!, authenticationService.defaultUsername)
+                .map { convertTagDocumentToDTO(it) }
+    }
+
+    fun getRejectedSuggestionsOfCurrentUser(): List<DependencyTagDTO> {
+        return tagRepository.findByRejectedAndUsername(true, authenticationService.getCurrentUsername()!!)
                 .map { convertTagDocumentToDTO(it) }
     }
 }

@@ -7,7 +7,7 @@ class DependencyTagDTO(
         val dependencyRef: DependencyRef,
         val tag: String,
         val deprecated: Boolean,
-        val rejected: Boolean,
+        val rej: Boolean,
         val underReview: Boolean,
         val likes: Int,
         val dislikes: Int,

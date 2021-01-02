@@ -32,6 +32,9 @@ class TagController(
     @GetMapping("suggestion/accepted")
     fun getAcceptedSuggestions(): List<DependencyTagDTO> = tagService.getAcceptedSuggestionsOfCurrentUser()
 
+    @GetMapping("suggestion/rejected")
+    fun getRejectedSuggestions(): List<DependencyTagDTO> = tagService.getRejectedSuggestionsOfCurrentUser()
+
     @PutMapping("suggestion/like")
     fun likeSuggestion(@RequestBody tagId: String) = tagService.increaseLikes(tagId)
 
